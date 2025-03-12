@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: demo-domain
+
+  profiles:
+    group:
+      local:
+        - demo-domain-local

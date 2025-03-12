@@ -1,0 +1,10 @@
+rootProject.name = 'demo'
+
+include 'domain'
+include 'domain:demo-domain'
+findProject(':domain:demo-domain')?.name = 'demo-domain'
+
+include 'api'
+include 'api:demo-rest-api'
+findProject(':api:demo-rest-api')?.name = 'demo-rest-api'
+

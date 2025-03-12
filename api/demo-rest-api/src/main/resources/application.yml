@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: demo-rest-api
+
+  profiles:
+    group:
+      local:
+        - demo-rest-api-local
