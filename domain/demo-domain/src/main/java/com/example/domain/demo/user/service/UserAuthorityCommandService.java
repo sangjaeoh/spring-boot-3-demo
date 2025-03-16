@@ -28,7 +28,7 @@ public class UserAuthorityCommandService {
 
 		UserAuthority userAuthority = UserAuthority.builder().user(user).authority(authority).build();
 
-		userAuthorityJpaRepository.save(userAuthority);
-		return userAuthority.getId();
+		UserAuthority savedUserAuthority = userAuthorityJpaRepository.save(userAuthority);
+		return savedUserAuthority.getId();
 	}
 }

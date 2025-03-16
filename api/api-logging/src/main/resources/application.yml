@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: api-logging
+
+logging:
+  request:
+    exclude:
+      path:
+        - "/swagger-ui/**"
+        - "/api-docs/**"

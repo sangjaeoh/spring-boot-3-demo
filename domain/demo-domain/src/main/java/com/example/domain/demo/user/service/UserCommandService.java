@@ -79,9 +79,6 @@ public class UserCommandService {
 
 		// User 도메인 유효성 검증
 		this.userValidator.validate(user);
-
-		// 명시적 저장
-		this.userRepository.save(user);
 	}
 
 	@Transactional
@@ -102,9 +99,6 @@ public class UserCommandService {
 
 		// User 도메인 유효성 검증
 		this.userValidator.validate(user);
-
-		// 명시적 저장
-		this.userRepository.save(user);
 	}
 
 }

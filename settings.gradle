@@ -5,6 +5,8 @@ include 'domain:demo-domain'
 findProject(':domain:demo-domain')?.name = 'demo-domain'
 
 include 'api'
-include 'api:demo-rest-api'
-findProject(':api:demo-rest-api')?.name = 'demo-rest-api'
+include 'api:demo-api'
+include 'api:api-logging'
+findProject(':api:demo-api')?.name = 'demo-api'
+findProject(':api:api-logging')?.name = 'api-logging'
 

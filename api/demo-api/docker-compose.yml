@@ -1,0 +1,15 @@
+# 멀티모듈에서 루트 폴더를 빌드
+version: "3.8"
+services:
+  demo-rest-api:
+    container_name: demo-rest-api
+    build:
+      context: ../../.
+      dockerfile: ./api/demo-api/Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+    restart: always
+    ports:
+      - "8080:8080"
+
+

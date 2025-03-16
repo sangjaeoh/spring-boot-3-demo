@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: demo-api
+  config:
+    import:
+      - 'classpath:application-demo-domain-${spring.profiles.active}.yml'
