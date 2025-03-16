@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(ex.getError().getStatus()).body(apiResult);
 	}
 
-	// 유저 도메인 예외 처리
+	// 데모 도메인 예외 처리
 	@ExceptionHandler(DemoDomainException.class)
 	protected ResponseEntity<ApiResult<Void>> handleCustomException(DemoDomainException ex,
 		HttpServletRequest request) {

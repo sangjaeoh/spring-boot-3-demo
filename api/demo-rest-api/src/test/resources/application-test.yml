@@ -1,0 +1,24 @@
+# JWT
+jwt:
+  secret-key: "Pa3eDdy6vp7LjCS675xDytQXellcR3D+ucMRywj3bXM="
+  access-token-expiration: 3600000 # (ms)
+  refresh-token-expiration: 86400000 # (ms)
+
+# Swagger https://springdoc.org/#springdoc-openapi-core-properties
+springdoc:
+  swagger-ui:
+    enabled: true               # Swagger UI 사용여부
+    path: /swagger-ui.html      # Swagger UI 접근 경로 <http://localhost:8080/swagger-ui.html>
+    tags-sorter: alpha          # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha
+  api-docs:
+    enabled: true
+    path: /api-docs
+
+# 로그
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate:
+      orm.jdbc.bind: TRACE
+    org.flywaydb: TRACE

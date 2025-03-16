@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'java-library'
     id 'org.springframework.boot' version '3.4.2'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -32,8 +33,9 @@ repositories {
 }
 
 dependencies {
-    // domain 모듈 의존성 추가
+    // 모듈 의존성 추가
     implementation project(':domain:demo-domain')
+    implementation project(':api:rest-api-logging')
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -59,6 +61,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // rest-assured
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'io.rest-assured:json-path'
 }
 
 tasks.named('test') {

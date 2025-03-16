@@ -1,19 +1,33 @@
 package com.example.domain.demo.user.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import com.example.domain.demo.common.pagination.PageResponse;
 import com.example.domain.demo.config.QuerydslConfig;
 import com.example.domain.demo.user.domain.QUser;
 import com.example.domain.demo.user.domain.User;
+import com.example.domain.demo.user.service.query.SearchUserCriteria;
+import com.example.domain.demo.user.service.query.SearchUserQueryBuilder;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
 public class UserCustomRepositoryImpl implements UserCustomRepository {
 
 	private final JPAQueryFactory queryFactory;
+	private final QUser user = QUser.user;
 
 	public UserCustomRepositoryImpl(@Qualifier(QuerydslConfig.JPA_QUERY_FACTORY) JPAQueryFactory queryFactory) {
 		this.queryFactory = queryFactory;
@@ -21,7 +35,55 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
 	@Override
 	public List<User> findUsersByName(String name) {
-		QUser user = QUser.user;
 		return queryFactory.selectFrom(user).where(user.name.eq(name)).fetch();
 	}
+
+	public PageResponse<User> searchPagination(SearchUserCriteria criteria) {
+		BooleanBuilder whereClause = SearchUserQueryBuilder.build(criteria);
+
+		JPAQuery<User> query = queryFactory.selectFrom(user)
+			.where(whereClause)
+			.offset(criteria.getPageRequest().getOffset())
+			.limit(criteria.getPageRequest().getPageSize());
+
+		OrderSpecifier<?>[] orderSpecifiers = getOrderSpecifiers(criteria.getPageRequest());
+		if (orderSpecifiers.length > 0) {
+			query.orderBy(orderSpecifiers);
+		}
+
+		List<User> content = query.fetch();
+		Long total = queryFactory.select(user.count())
+			.from(user)
+			.where(whereClause)
+			.fetchOne();
+
+		PageImpl<User> page = new PageImpl<>(content, criteria.getPageRequest(), total);
+		PageResponse<User> userPageResponse = PageResponse.of(page);
+		return PageResponse.of(page);
+	}
+
+	private OrderSpecifier<?>[] getOrderSpecifiers(Pageable pageable) {
+		List<OrderSpecifier<?>> specifiers = new ArrayList<>();
+
+		if (!pageable.getSort().isEmpty()) {
+			for (Sort.Order order : pageable.getSort()) {
+				String property = order.getProperty();
+				Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+
+				switch (property) {
+					case "createdAt":
+						specifiers.add(new OrderSpecifier<>(direction, user.createdAt));
+						break;
+					case "age":
+						specifiers.add(new OrderSpecifier<>(direction, user.age));
+						break;
+					default:
+						throw new IllegalArgumentException("Unsupported sort property: " + property);
+				}
+			}
+		}
+
+		return specifiers.toArray(new OrderSpecifier[0]);
+	}
+
 }

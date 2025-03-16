@@ -17,7 +17,7 @@ public class UserResponse {
 	private Long id;
 	private String email;
 	private String name;
-	private int age;
+	private Integer age;
 
 	public static UserResponse from(User user) {
 		return UserResponse.builder()

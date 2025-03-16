@@ -38,7 +38,7 @@ public class SecurityConfig {
 	private final UserDetailsService userDetailsService;
 
 	private static final String[] AUTH_WHITELIST = {"/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**",
-		"/api/auth/**"};
+		"/h2-console", "/h2-console/**", "/api/auth/**"};
 
 	@Bean
 	@Primary

@@ -18,7 +18,7 @@ public class AuthorityCommandService {
 	@Transactional
 	public Long create(CreateAuthorityCommand command) {
 		Authority authority = Authority.builder().role(command.getRole()).build();
-		authorityJpaRepository.save(authority);
-		return authority.getId();
+		Authority savedAuthority = authorityJpaRepository.save(authority);
+		return savedAuthority.getId();
 	}
 }
